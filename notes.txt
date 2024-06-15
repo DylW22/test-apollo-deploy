@@ -1,0 +1,8 @@
+
+//https://stackoverflow.com/questions/77261510/apolloserver-createapigatewayproxyeventv2requesthandler-how-to-set-up-cors
+
+
+Start the server by:
+npx serverless offline
+
+http://localhost:3000/

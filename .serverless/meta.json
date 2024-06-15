@@ -22,8 +22,253 @@
         "stage": "dev",
         "region": "us-east-1",
         "versionFunctions": true,
-        "environment": {
-          "IS_LOCAL": "true"
+        "compiledCloudFormationTemplate": {
+          "AWSTemplateFormatVersion": "2010-09-09",
+          "Description": "The AWS CloudFormation template for this Serverless application",
+          "Resources": {
+            "ServerlessDeploymentBucket": {
+              "Type": "AWS::S3::Bucket",
+              "Properties": {
+                "BucketEncryption": {
+                  "ServerSideEncryptionConfiguration": [
+                    {
+                      "ServerSideEncryptionByDefault": {
+                        "SSEAlgorithm": "AES256"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "ServerlessDeploymentBucketPolicy": {
+              "Type": "AWS::S3::BucketPolicy",
+              "Properties": {
+                "Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "PolicyDocument": {
+                  "Statement": [
+                    {
+                      "Action": "s3:*",
+                      "Effect": "Deny",
+                      "Principal": "*",
+                      "Resource": [
+                        {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":s3:::",
+                              {
+                                "Ref": "ServerlessDeploymentBucket"
+                              },
+                              "/*"
+                            ]
+                          ]
+                        },
+                        {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":s3:::",
+                              {
+                                "Ref": "ServerlessDeploymentBucket"
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      "Condition": {
+                        "Bool": {
+                          "aws:SecureTransport": false
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "GraphqlLogGroup": {
+              "Type": "AWS::Logs::LogGroup",
+              "Properties": {
+                "LogGroupName": "/aws/lambda/apollo-lambda-dev-graphql"
+              }
+            },
+            "IamRoleLambdaExecution": {
+              "Type": "AWS::IAM::Role",
+              "Properties": {
+                "AssumeRolePolicyDocument": {
+                  "Version": "2012-10-17",
+                  "Statement": [
+                    {
+                      "Effect": "Allow",
+                      "Principal": {
+                        "Service": [
+                          "lambda.amazonaws.com"
+                        ]
+                      },
+                      "Action": [
+                        "sts:AssumeRole"
+                      ]
+                    }
+                  ]
+                },
+                "Policies": [
+                  {
+                    "PolicyName": {
+                      "Fn::Join": [
+                        "-",
+                        [
+                          "apollo-lambda",
+                          "dev",
+                          "lambda"
+                        ]
+                      ]
+                    },
+                    "PolicyDocument": {
+                      "Version": "2012-10-17",
+                      "Statement": [
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:CreateLogStream",
+                            "logs:CreateLogGroup",
+                            "logs:TagResource"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/apollo-lambda-dev*:*"
+                            }
+                          ]
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "logs:PutLogEvents"
+                          ],
+                          "Resource": [
+                            {
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/apollo-lambda-dev*:*:*"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "Path": "/",
+                "RoleName": {
+                  "Fn::Join": [
+                    "-",
+                    [
+                      "apollo-lambda",
+                      "dev",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      "lambdaRole"
+                    ]
+                  ]
+                }
+              }
+            }
+          },
+          "Outputs": {
+            "ServerlessDeploymentBucketName": {
+              "Value": {
+                "Ref": "ServerlessDeploymentBucket"
+              }
+            }
+          }
+        },
+        "coreCloudFormationTemplate": {
+          "AWSTemplateFormatVersion": "2010-09-09",
+          "Description": "The AWS CloudFormation template for this Serverless application",
+          "Resources": {
+            "ServerlessDeploymentBucket": {
+              "Type": "AWS::S3::Bucket",
+              "Properties": {
+                "BucketEncryption": {
+                  "ServerSideEncryptionConfiguration": [
+                    {
+                      "ServerSideEncryptionByDefault": {
+                        "SSEAlgorithm": "AES256"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            "ServerlessDeploymentBucketPolicy": {
+              "Type": "AWS::S3::BucketPolicy",
+              "Properties": {
+                "Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "PolicyDocument": {
+                  "Statement": [
+                    {
+                      "Action": "s3:*",
+                      "Effect": "Deny",
+                      "Principal": "*",
+                      "Resource": [
+                        {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":s3:::",
+                              {
+                                "Ref": "ServerlessDeploymentBucket"
+                              },
+                              "/*"
+                            ]
+                          ]
+                        },
+                        {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":s3:::",
+                              {
+                                "Ref": "ServerlessDeploymentBucket"
+                              }
+                            ]
+                          ]
+                        }
+                      ],
+                      "Condition": {
+                        "Bool": {
+                          "aws:SecureTransport": false
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "Outputs": {
+            "ServerlessDeploymentBucketName": {
+              "Value": {
+                "Ref": "ServerlessDeploymentBucket"
+              }
+            }
+          }
         }
       },
       "functions": {
@@ -57,22 +302,19 @@
         "esbuild": false
       },
       "plugins": [
-        "serverless-plugin-typescript"
+        "serverless-plugin-typescript",
+        "serverless-offline"
       ]
     },
-    "serviceRawFile": "# \"org\" ensures this Service is used with the correct Serverless Framework Access Key.\r\norg: dylancoapolloserver\r\n# \"app\" enables Serverless Framework Dashboard features and sharing them with other Services.\r\napp: my-server2\r\nservice: apollo-lambda\r\nprovider:\r\n  name: aws\r\n  runtime: nodejs20.x\r\n  httpApi:\r\n    cors: true\r\nfunctions:\r\n  graphql:\r\n    # Make sure your file path is correct!\r\n    # (e.g., if your file is in the root folder use server.graphqlHandler )\r\n    # The format is: <FILENAME>.<HANDLER>\r\n    handler: src/server.graphqlHandler # highlight-line\r\n    events:\r\n      - httpApi:\r\n          path: /\r\n          method: POST\r\n      - httpApi:\r\n          path: /\r\n          method: GET\r\n# Omit the following lines if you aren't using TS!\r\nbuild:\r\n  esbuild: false\r\nplugins:\r\n  - serverless-plugin-typescript\r\n#  - serverless-offline\r\n\r\n",
+    "serviceRawFile": "# \"org\" ensures this Service is used with the correct Serverless Framework Access Key.\r\norg: dylancoapolloserver\r\n# \"app\" enables Serverless Framework Dashboard features and sharing them with other Services.\r\napp: my-server2\r\nservice: apollo-lambda\r\nprovider:\r\n  name: aws\r\n  runtime: nodejs20.x\r\n  httpApi:\r\n    cors: true\r\nfunctions:\r\n  graphql:\r\n    # Make sure your file path is correct!\r\n    # (e.g., if your file is in the root folder use server.graphqlHandler )\r\n    # The format is: <FILENAME>.<HANDLER>\r\n    handler: src/server.graphqlHandler # highlight-line\r\n    events:\r\n      - httpApi:\r\n          path: /\r\n          method: POST\r\n      - httpApi:\r\n          path: /\r\n          method: GET\r\n# Omit the following lines if you aren't using TS!\r\nbuild:\r\n  esbuild: false\r\nplugins:\r\n  - serverless-plugin-typescript\r\n  - serverless-offline\r\n",
     "command": [
-      "invoke",
-      "local"
+      "deploy"
     ],
-    "options": {
-      "function": "graphql",
-      "path": "query.json"
-    },
+    "options": {},
     "error": {
-      "message": "Exception encountered when loading C:\\Users\\dylan\\Documents\\repos\\apollo-server-guide\\.build\\src\\server",
-      "stack": "ServerlessError2: Exception encountered when loading C:\\Users\\dylan\\Documents\\repos\\apollo-server-guide\\.build\\src\\server\n    at AwsInvokeLocal.invokeLocalNodeJs (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:1005:9347)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async PluginManager.runHooks (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:1008:9290)\n    at async PluginManager.invoke (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:1008:10056)\n    at async PluginManager.run (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:1008:10779)\n    at async Serverless.run (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:1015:10442)\n    at async runFramework (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:1059:2314)\n    at async route (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:1068:14692)\n    at async Object.run2 [as run] (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:1068:15090)\n    at async run3 (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:1068:16324)",
-      "code": "INVOKE_LOCAL_LAMBDA_INITIALIZATION_FAILED"
+      "message": "Cannot read file node_modules\\es-abstract\\2019\\ArraySpeciesCreate.js due to: EMFILE: too many open files, open 'C:\\Users\\dylan\\Documents\\repos\\apollo-server-guide\\.build\\node_modules\\es-abstract\\2019\\ArraySpeciesCreate.js'",
+      "stack": "ServerlessError2: Cannot read file node_modules\\es-abstract\\2019\\ArraySpeciesCreate.js due to: EMFILE: too many open files, open 'C:\\Users\\dylan\\Documents\\repos\\apollo-server-guide\\.build\\node_modules\\es-abstract\\2019\\ArraySpeciesCreate.js'\n    at file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:792:26637\n    at tryCatcher (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:374:81933)\n    at Promise2._settlePromiseFromHandler (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:552:10136)\n    at Promise2._settlePromise (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:552:11455)\n    at Promise2._settlePromise0 (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:552:12512)\n    at Promise2._settlePromises (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:552:14108)\n    at _drainQueueStep (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:381:583)\n    at _drainQueue (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:381:479)\n    at Async._drainQueues (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:381:716)\n    at Async.drainQueues [as _onImmediate] (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:377:3278)\n    at process.processImmediate (node:internal/timers:478:21)",
+      "code": "CANNOT_READ_FILE"
     },
     "params": {},
     "machineId": "498d420b7a1362bdcd053e8e54659d7b",
