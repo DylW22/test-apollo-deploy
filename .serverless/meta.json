@@ -1,0 +1,137 @@
+{
+  "C:\\Users\\dylan\\Documents\\repos\\apollo-server-guide": {
+    "versionSfCore": null,
+    "versionFramework": "4.1.4",
+    "isWithinCompose": false,
+    "isCompose": false,
+    "composeOrgName": null,
+    "composeResolverProviders": {},
+    "composeServiceName": null,
+    "servicePath": "C:\\Users\\dylan\\Documents\\repos\\apollo-server-guide",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "org": "dylancoapolloserver",
+      "app": "my-server2",
+      "service": "apollo-lambda",
+      "provider": {
+        "name": "aws",
+        "runtime": "nodejs20.x",
+        "httpApi": {
+          "cors": true
+        },
+        "stage": "dev",
+        "region": "us-east-1",
+        "versionFunctions": true,
+        "environment": {
+          "IS_LOCAL": "true"
+        }
+      },
+      "functions": {
+        "graphql": {
+          "handler": "src/server.graphqlHandler",
+          "events": [
+            {
+              "httpApi": {
+                "path": "/",
+                "method": "POST"
+              }
+            },
+            {
+              "httpApi": {
+                "path": "/",
+                "method": "GET"
+              }
+            }
+          ],
+          "name": "apollo-lambda-dev-graphql",
+          "package": {
+            "exclude": [
+              "node_modules/serverless-plugin-typescript"
+            ],
+            "include": [],
+            "patterns": []
+          }
+        }
+      },
+      "build": {
+        "esbuild": false
+      },
+      "plugins": [
+        "serverless-plugin-typescript"
+      ]
+    },
+    "serviceRawFile": "# \"org\" ensures this Service is used with the correct Serverless Framework Access Key.\r\norg: dylancoapolloserver\r\n# \"app\" enables Serverless Framework Dashboard features and sharing them with other Services.\r\napp: my-server2\r\nservice: apollo-lambda\r\nprovider:\r\n  name: aws\r\n  runtime: nodejs20.x\r\n  httpApi:\r\n    cors: true\r\nfunctions:\r\n  graphql:\r\n    # Make sure your file path is correct!\r\n    # (e.g., if your file is in the root folder use server.graphqlHandler )\r\n    # The format is: <FILENAME>.<HANDLER>\r\n    handler: src/server.graphqlHandler # highlight-line\r\n    events:\r\n      - httpApi:\r\n          path: /\r\n          method: POST\r\n      - httpApi:\r\n          path: /\r\n          method: GET\r\n# Omit the following lines if you aren't using TS!\r\nbuild:\r\n  esbuild: false\r\nplugins:\r\n  - serverless-plugin-typescript\r\n#  - serverless-offline\r\n\r\n",
+    "command": [
+      "invoke",
+      "local"
+    ],
+    "options": {
+      "function": "graphql",
+      "path": "query.json"
+    },
+    "error": {
+      "message": "Exception encountered when loading C:\\Users\\dylan\\Documents\\repos\\apollo-server-guide\\.build\\src\\server",
+      "stack": "ServerlessError2: Exception encountered when loading C:\\Users\\dylan\\Documents\\repos\\apollo-server-guide\\.build\\src\\server\n    at AwsInvokeLocal.invokeLocalNodeJs (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:1005:9347)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async PluginManager.runHooks (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:1008:9290)\n    at async PluginManager.invoke (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:1008:10056)\n    at async PluginManager.run (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:1008:10779)\n    at async Serverless.run (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:1015:10442)\n    at async runFramework (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:1059:2314)\n    at async route (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:1068:14692)\n    at async Object.run2 [as run] (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:1068:15090)\n    at async run3 (file:///C:/Users/dylan/.serverless/releases/4.1.4/package/dist/sf-core.js:1068:16324)",
+      "code": "INVOKE_LOCAL_LAMBDA_INITIALIZATION_FAILED"
+    },
+    "params": {},
+    "machineId": "498d420b7a1362bdcd053e8e54659d7b",
+    "accessKeyV2": "<REDACTED>",
+    "accessKeyV1": "<REDACTED>",
+    "orgId": "0342fbac-d1db-45c2-9b19-0fe418e3729b",
+    "orgName": "dylancoapolloserver",
+    "userId": "xHzCK0CP3cShKml1xh",
+    "dashboard": {
+      "isEnabledForService": true,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": {
+        "providers": true,
+        "monitoring": false
+      },
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": "sglfH3CfF9GYl2NfVT",
+      "serviceProvider": {
+        "accessKeyId": "<REDACTED>",
+        "secretAccessKey": "<REDACTED>",
+        "sessionToken": "<REDACTED>"
+      },
+      "instanceParameters": null
+    },
+    "userName": "dylancoapolloserver",
+    "subscription": null,
+    "userEmail": "dylan.whitehouse22@gmail.com",
+    "serviceProviderAwsCredentials": "<REDACTED>",
+    "serviceProviderAwsAccountId": "590183842967",
+    "versionSf": "4.1.4",
+    "serviceProviderAwsCfStackName": "apollo-lambda-dev",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:590183842967:stack/apollo-lambda-dev/520d1400-2986-11ef-9aff-0afff64c9fab",
+    "serviceProviderAwsCfStackCreated": "2024-06-13T13:10:35.162Z",
+    "serviceProviderAwsCfStackUpdated": "2024-06-15T04:52:07.334Z",
+    "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
+    "serviceProviderAwsCfStackOutputs": [
+      {
+        "OutputKey": "GraphqlLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:590183842967:function:apollo-lambda-dev-graphql:12",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-apollo-lambda-dev-GraphqlLambdaFunctionQualifiedArn"
+      },
+      {
+        "OutputKey": "HttpApiId",
+        "OutputValue": "55ksxdqcra",
+        "Description": "Id of the HTTP API",
+        "ExportName": "sls-apollo-lambda-dev-HttpApiId"
+      },
+      {
+        "OutputKey": "ServerlessDeploymentBucketName",
+        "OutputValue": "apollo-lambda-dev-serverlessdeploymentbucket-vem35y7vwpdk",
+        "ExportName": "sls-apollo-lambda-dev-ServerlessDeploymentBucketName"
+      },
+      {
+        "OutputKey": "HttpApiUrl",
+        "OutputValue": "https://55ksxdqcra.execute-api.us-east-1.amazonaws.com",
+        "Description": "URL of the HTTP API",
+        "ExportName": "sls-apollo-lambda-dev-HttpApiUrl"
+      }
+    ]
+  }
+}
